@@ -4,16 +4,15 @@ from consts import *
 # this module contains functions that are used to compute the ode
 
 def u(t):
-    return np.sin(omega * t) ** 2
-
+    # return np.sin(omega * t) ** 2
+    return D0*np.cos(omega*t)
 
 def v(t):
-    return np.cos(omega * t) ** 2
+    return J+d0*np.sin(omega*t)
 
 
 def w(t):
-    return (np.sin(omega * t) + np.cos(omega * t)) ** 2
-
+    return J-d0*np.sin(omega*t)
 
 def x(n):
     return 2 * n * omegaF
@@ -159,13 +158,26 @@ def S2(psiQ, q):
     return psiQp1
 
 
-def meanX(psiQ):
+def meanXAndXWd(psiQ):
     '''
 
     :param psiQ: wavefunction at time q
     :return: mean position at time q
     '''
     xOut = 0
+    # x2Out=0
     for j in range(0, len(psiQ)):
         xOut += j * np.abs(psiQ[j]) ** 2
+    #
+    # for j in range(0,len(psiQ)):
+    #     x2Out+=(j-xOut)**2*np.abs(psiQ[j])**2
     return xOut
+
+def reNormalization(vec):
+    tmp2=0
+    for elem in vec:
+        tmp2+=np.abs(elem)**2
+    tmp=np.sqrt(tmp2)
+    vec/=tmp
+    return vec
+
