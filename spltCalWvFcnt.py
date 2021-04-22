@@ -14,29 +14,13 @@ for q in range(0,Q):
 
 tEnd = datetime.now()
 print("computation time: ", tEnd - tStart)
-outDir = "./fig1/"
+outDir = "./pumpFig1/"
 outCsvName=outDir+"wv.csv"
 dataAll=np.asarray(dataAll)
 # dtFrame=pd.DataFrame(data=dataAll)
 # dtFrame.to_csv(outCsvName,index=False)
 np.savetxt(outCsvName,dataAll,delimiter=",")
-# # plotting wavefunctions
-# plotStart=datetime.now()
-# for q in range(0,Q):
-#     plt.figure()
-#     nmTmp=[np.abs(elem)**2 for elem in dataAll[q]]
-#     plt.plot(range(0,L),nmTmp,color="black")
-#     plt.xlabel("position"
-#                )
-#     plt.title("time = "+str(q*dt)+", g = "+str(g))
-#     plt.ylabel("magnitude")
-#     # outFile=outDir+"omegaF"+str(omegaF)+"omega"+str(omega)+"g"+str(g)+"q"+str(q)+".png"
-#     outFile=outDir+"q"+str(q)+".png"
-#     plt.savefig(outFile)
-#     plt.close()
-# plotEnd=datetime.now()
-# print("plotting time: ",plotEnd-plotStart)
-###### end plotting wave functions
+
 xPos = []
 # wdAll=[]
 for q in range(0, Q):
@@ -69,7 +53,10 @@ plt.close()
 # plt.title("g = "+str(g))
 # plt.savefig(outDir+"g"+str(g)+"width.png")
 # plt.close()
+
 # write params info
+
+
 outTxt = outDir + "info.txt"
 
 fptr = open(outTxt, "w+")
@@ -83,3 +70,24 @@ fptr.write(inspect.getsource(u))
 fptr.write(inspect.getsource(v))
 fptr.write(inspect.getsource(w))
 fptr.close()
+
+# plotting wavefunctions
+# plotStart=datetime.now()
+# for q in range(0,Q):
+#     plt.figure()
+#     nmTmp=[np.abs(elem)**2 for elem in dataAll[q]]
+#     plt.plot(range(0,L),nmTmp,color="black")
+#     plt.xlabel("position"
+#                )
+#     plt.title("time = "+str(q*dt)+", g = "+str(g))
+#     plt.ylabel("magnitude")
+#     # outFile=outDir+"omegaF"+str(omegaF)+"omega"+str(omega)+"g"+str(g)+"q"+str(q)+".png"
+#     outFile=outDir+"q"+str(q)+".png"
+#     plt.savefig(outFile)
+#     plt.close()
+# plotEnd=datetime.now()
+# print("plotting time: ",plotEnd-plotStart)
+# ###### end plotting wave functions
+
+
+

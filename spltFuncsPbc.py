@@ -5,14 +5,16 @@ from consts import *
 
 def u(t):
     # return np.sin(omega * t) ** 2
-    return D0*np.cos(omega*t)
+    return D0 * np.cos(omega * t)
+
 
 def v(t):
-    return J+d0*np.sin(omega*t)
+    return J + d0 * np.sin(omega * t)
 
 
 def w(t):
-    return J-d0*np.sin(omega*t)
+    return J - d0 * np.sin(omega * t)
+
 
 def x(n):
     return 2 * n * omegaF
@@ -92,8 +94,9 @@ def phi21(deltaTau, wQ, xi):
     # j=1,2,...,N-1
     for j in range(1, N):
         xi[2 * j] += -1j * deltaTau * wQ * xi[2 * j - 1]
-    #pbc
-    xi[2*0]+=-1j*deltaTau*wQ*xi[2*0-1+2*N]
+    # pbc
+    xi[2 * 0] += -1j * deltaTau * wQ * xi[2 * 0 - 1 + 2 * N]
+
 
 # mapping phi22
 def phi22(deltaTau, wQ, xi):
@@ -107,8 +110,8 @@ def phi22(deltaTau, wQ, xi):
     # j=0,1,...,N-2
     for j in range(0, N - 1):
         xi[2 * j + 1] += -1j * deltaTau * wQ * xi[2 * j + 2]
-    #pbc
-    xi[2*(N-1)+1]+=-1j*deltaTau*wQ*xi[2*0]
+    # pbc
+    xi[2 * (N - 1) + 1] += -1j * deltaTau * wQ * xi[2 * 0]
 
 
 # composite mapping zeta1
@@ -176,11 +179,11 @@ def meanXAndXWd(psiQ):
     #     x2Out+=(j-xOut)**2*np.abs(psiQ[j])**2
     return xOut
 
-def reNormalization(vec):
-    tmp2=0
-    for elem in vec:
-        tmp2+=np.abs(elem)**2
-    tmp=np.sqrt(tmp2)
-    vec/=tmp
-    return vec
 
+def reNormalization(vec):
+    tmp2 = 0
+    for elem in vec:
+        tmp2 += np.abs(elem) ** 2
+    tmp = np.sqrt(tmp2)
+    vec /= tmp
+    return vec
