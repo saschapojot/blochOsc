@@ -1,36 +1,20 @@
-from rk4pbcFuncs import *
+from spltFuncsPbc import *
 
 import inspect
-
-
-tStart=datetime.now()
-for q in range(0,Q):
-    Aq=AAll[q]
-    Bq=BAll[q]
-
-    AqNext,BqNext=RK4(q,Aq,Bq)
-    psiq=[]
-    for j in range(0,len(AqNext)):
-        psiq.append(AqNext[j])
-        psiq.append(BqNext[j])
-    psiq=reNormalization(psiq)
-    AqNext=[psiq[2*j] for j in range(0,N)]
-    BqNext=[psiq[2*j+1] for j in range(0,N)]
-    AAll.append(AqNext)
-    BAll.append(BqNext)
-
-tEnd=datetime.now()
-print("computation time: ", tEnd - tStart)
-outDir = "./fig2/"
+tStart = datetime.now()
 dataAll=[]
-for q in range(0,Q+1):
-    psiq=[]
-    Aq=AAll[q]
-    Bq=BAll[q]
-    for j in range(0,len(Aq)):
-        psiq.append(Aq[j])
-        psiq.append(Bq[j])
-    dataAll.append(psiq)
+dataAll.append(psi0)
+
+for q in range(0,Q):
+    psiCurr=dataAll[q]
+    psiNext=S2(psiCurr,q)
+    psiNext=reNormalization(psiNext)
+    dataAll.append(psiNext)
+
+
+tEnd = datetime.now()
+print("computation time: ", tEnd - tStart)
+outDir = "./fig1/"
 outCsvName=outDir+"wv.csv"
 dataAll=np.asarray(dataAll)
 # dtFrame=pd.DataFrame(data=dataAll)
@@ -55,7 +39,7 @@ np.savetxt(outCsvName,dataAll,delimiter=",")
 ###### end plotting wave functions
 xPos = []
 # wdAll=[]
-for q in range(0, Q+1):
+for q in range(0, Q):
     vecTmp = dataAll[q]
     # vecTmp=reNormalization(vecTmp)
     xTmp = meanXAndXWd(vecTmp)
@@ -66,9 +50,9 @@ posMax = np.max(drift)
 posMin = np.min(drift)
 
 posDiff = 0.1
-# tickNum = int((posMax - posMin) / posDiff)
-# yTicks = [posMin + j * posDiff for j in range(0, tickNum + 2)]
-tAll = [dt * q for q in range(0, Q+1)]
+tickNum = int((posMax - posMin) / posDiff)
+yTicks = [posMin + j * posDiff for j in range(0, tickNum + 2)]
+tAll = [dt * q for q in range(0, Q)]
 plt.figure(figsize=(20,20))
 # plt.yticks(yTicks)
 plt.plot(tAll, drift, color="black")
@@ -77,8 +61,15 @@ plt.ylabel("avg position")
 plt.title("g = " + str(g))
 plt.savefig(outDir + "g" + str(g) + "position.png")
 plt.close()
-
-
+########plotting width
+# plt.figure(figsize=(20,20))
+# plt.plot(tAll,wdAll,color="black")
+# plt.xlabel("time")
+# plt.ylabel("width")
+# plt.title("g = "+str(g))
+# plt.savefig(outDir+"g"+str(g)+"width.png")
+# plt.close()
+# write params info
 outTxt = outDir + "info.txt"
 
 fptr = open(outTxt, "w+")

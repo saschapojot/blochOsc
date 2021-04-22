@@ -78,8 +78,8 @@ def RK4(q,Aq,Bq):
     AqNext=[]
     BqNext=[]
     for n in range(0,N):
-        AqNext.append(Aq[n]+1/6*(K1[n]+2*K2[n]+2*K3[n]+K4[n]))
-        BqNext.append(Bq[n]+1/6*(M1[n]+2*M2[n]+2*M3[n]+M4[n]))
+        AqNext.append(Aq[n]+1/6*dt*(K1[n]+2*K2[n]+2*K3[n]+K4[n]))
+        BqNext.append(Bq[n]+1/6*dt*(M1[n]+2*M2[n]+2*M3[n]+M4[n]))
     return AqNext,BqNext
 
 
